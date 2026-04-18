@@ -1,7 +1,7 @@
 from fastapi import Depends, ApiRouter, HTTPException, status, Response
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.models import User, Business, Review
+from app.models import User, Business
 from app.schemas.business_schemas import BusinessCreate, BusinessResponse, BusinessUpdate
 from app.core.deps import get_current_user
 from typing import List
@@ -70,7 +70,7 @@ def update_business(id: uuid.UUID, update: BusinessUpdate, db: Session = Depends
     
     
 @router.delete("/businesses/{id}")
-def delete_business(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+def delete_business(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)) -> Response:
     business = db.query(Business).filter(Business.id == id).first()
     
     if not business:
