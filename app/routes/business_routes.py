@@ -1,13 +1,13 @@
-from fastapi import Depends, ApiRouter, HTTPException, status, Response
+from fastapi import Depends, APIRouter, HTTPException, status, Response
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.models import User, Business
+from app.models.models import User, Business
 from app.schemas.business_schemas import BusinessCreate, BusinessResponse, BusinessUpdate
 from app.core.deps import get_current_user
 from typing import List
 import uuid
 
-router = ApiRouter(prefix="/api", tags=["api"])
+router = APIRouter(prefix="/api", tags=["api"])
 
 @router.get("/businesses")
 def businesses(search: str | None = None, category: str | None = None, city: str | None = None, db: Session = Depends(get_db), skip: int = 0, limit: int = 10) -> List[BusinessResponse]:
